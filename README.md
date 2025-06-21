@@ -31,7 +31,7 @@ python app.py
 python run.py
 ```
 
-服务将在 `http://localhost:5000` 启动
+服务将在 `http://101.126.54.157:3011` 启动
 
 ## API接口
 
@@ -46,16 +46,16 @@ python run.py
 **示例请求:**
 ```bash
 # 获取HTML文档的第一层级目录
-curl "http://localhost:5000/api/chapters?url=https://example.com/document.html"
+curl "http://101.126.54.157:3011/api/chapters?url=https://example.com/document.html"
 
 # 获取Word文档的第一层级目录
-curl "http://localhost:5000/api/chapters?url=https://example.com/document.docx"
+curl "http://101.126.54.157:3011/api/chapters?url=https://example.com/document.docx"
 
 # 获取指定章节的子目录
-curl "http://localhost:5000/api/chapters?url=https://example.com/document.docx&chapter=第一章"
+curl "http://101.126.54.157:3011/api/chapters?url=https://example.com/document.docx&chapter=第一章"
 
 # 获取最子目录的内容（当指定章节没有子章节时）
-curl "http://localhost:5000/api/chapters?url=https://example.com/document.docx&chapter=最子章节"
+curl "http://101.126.54.157:3011/api/chapters?url=https://example.com/document.docx&chapter=最子章节"
 ```
 
 **响应格式:**
@@ -113,10 +113,10 @@ curl "http://localhost:5000/api/chapters?url=https://example.com/document.docx&c
 **示例请求:**
 ```bash
 # 获取整个文档内容
-curl "http://localhost:5000/api/content?url=https://example.com/document.docx"
+curl "http://101.126.54.157:3011/api/content?url=https://example.com/document.docx"
 
 # 获取指定章节内容
-curl "http://localhost:5000/api/content?url=https://example.com/document.docx&chapter=第一章"
+curl "http://101.126.54.157:3011/api/content?url=https://example.com/document.docx&chapter=第一章"
 ```
 
 **响应格式:**
@@ -139,7 +139,7 @@ curl "http://localhost:5000/api/content?url=https://example.com/document.docx&ch
 
 **示例请求:**
 ```bash
-curl "http://localhost:5000/health"
+curl "http://101.126.54.157:3011/health"
 ```
 
 **响应格式:**
@@ -173,7 +173,7 @@ curl "http://localhost:5000/health"
 
 ```bash
 # 假设"1.2 详细说明"是最子章节，没有子章节
-curl "http://localhost:5000/api/chapters?url=https://example.com/document.docx&chapter=1.2 详细说明"
+curl "http://101.126.54.157:3011/api/chapters?url=https://example.com/document.docx&chapter=1.2 详细说明"
 ```
 
 响应：
@@ -242,50 +242,3 @@ curl "http://localhost:5000/api/chapters?url=https://example.com/document.docx&c
 - 请求超时设置（10秒）
 - 自动编码检测
 - 文档类型自动识别
-
-## 使用示例
-
-### Python客户端示例
-
-```python
-import requests
-
-# 获取HTML文档目录
-response = requests.get('http://localhost:5000/api/chapters', params={
-    'url': 'https://example.com/document.html'
-})
-chapters = response.json()
-
-# 获取Word文档目录
-response = requests.get('http://localhost:5000/api/chapters', params={
-    'url': 'https://example.com/document.docx'
-})
-chapters = response.json()
-
-# 获取最子目录内容
-response = requests.get('http://localhost:5000/api/chapters', params={
-    'url': 'https://example.com/document.docx',
-    'chapter': '最子章节'
-})
-result = response.json()
-
-# 检查返回类型
-if result['data']['type'] == 'content':
-    print("这是最子目录，内容：", result['data']['content'])
-else:
-    print("这是目录，子章节：", result['data']['chapters'])
-```
-
-## 测试
-
-运行测试脚本：
-```bash
-python test_api.py
-```
-
-测试脚本会验证以下功能：
-- 健康检查接口
-- 获取第一层级章节
-- 获取指定章节的子章节
-- 获取最子目录的内容
-- 获取指定章节内容 
